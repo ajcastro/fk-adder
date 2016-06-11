@@ -2,7 +2,7 @@
 
 namespace FkAdder;
 
-class FkAdder
+class Fk
 {
     /**
      * Table blueprint.

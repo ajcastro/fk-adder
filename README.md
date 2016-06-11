@@ -1,16 +1,13 @@
-### FkAdder\FkAdder
+### FkAdder\Fk
 
 
 #### Usage
 
 __Sample__:
 ```
-Schema::create('users', function(Blueprint $table)
-{
+Schema::create('users', function(Blueprint $table) {
     $table->increments('id');
-    FkAdder::for($table)->add('user_group_id');
-    // ...
-    
+    Fk::for($table)->add('user_group_id');
 });
 ```
 
@@ -36,8 +33,8 @@ class AddForeignKeysToAllTable extends Migration
     public function up()
     {
         // IMPORTANT NOTE: Make sure this is the last migration being called.
-        // Execute creation of foreign keys by all migrations which use FkAdder. \m/ :).
-        foreach (FkAdder::$foreignKeys as $foreignKey) {
+        // Execute creation of foreign keys by all migrations which use Fk. \m/ :).
+        foreach (Fk::$foreignKeys as $foreignKey) {
             Schema::table($foreignKey['table'], function (Blueprint $table) use ($foreignKey) {
                 $table->foreign($foreignKey['column', $foreignKey['key_name')
                 ->references($foreignKey['primary_key')

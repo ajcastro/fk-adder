@@ -41,7 +41,7 @@ class BaseFk
             return static::$fkDatatypes;
         }
 
-        $required = require_once FkAdder::$fkDatatypesPath;
+        $required = require_once Fk::$fkDatatypesPath;
 
         return static::$fkDatatypes = $required === true ? static::$fkDatatypes : $required;
     }
