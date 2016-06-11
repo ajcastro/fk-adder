@@ -58,12 +58,13 @@ class Fk
         $column = $column ?: $baseFk->defaultColumn();
 
         static::$foreignKeys[] = [
-            'column'      => $column,
-            'key_name'    => $keyName,
-            'table'       => $baseFk->referenceTable(),
-            'primary_key' => $baseFk->primaryKey,
-            'on_delete'   => $onDelete ?: $baseFk->onDelete,
-            'on_update'   => $onUpdate ?: $baseFk->onUpdate,
+            'column'          => $column,
+            'key_name'        => $keyName,
+            'table'           => $this->table->getTable(),
+            'reference_table' => $baseFk->referenceTable(),
+            'primary_key'     => $baseFk->primaryKey,
+            'on_delete'       => $onDelete ?: $baseFk->onDelete,
+            'on_update'       => $onUpdate ?: $baseFk->onUpdate,
         ];
 
         return $baseFk->createFkColumn($column);
