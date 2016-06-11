@@ -44,13 +44,13 @@ class UserId extends BaseFk
 
 ```
 
-If your foreign key declaration is so simple as it is just needs the datatype declaration you can use your `fk_datatypes_path`.
+If your foreign key declaration is so simple as it just needs the datatype declaration you can use your `fk_datatypes_path`.
 
 ```
 <?php
 
 /*
- * Fk datatypes. Registry of datatypes per fk, if ever createFkColumn is just a datatype declaration.
+ * Fk datatypes. Registry of datatypes per fk, if ever createFkColumn is as simple as a datatype declaration.
  * For simple fk datatype column creation.
  */
 return [
