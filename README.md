@@ -1,6 +1,6 @@
 ### FkAdder for Laravel Migration
 
-Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
+Lets you add foreign keys in a swift! Foreign key adder for laravel migration. Tested only in laravel version 4.2.11.
 
 The purpose of `FkAdder` is to simplify declaration of foreign key columns in migration.
 
