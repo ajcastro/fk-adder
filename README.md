@@ -1,6 +1,6 @@
 ### FkAdder for Laravel Migration
 
-Lets you add foreign keys in a swift! Foreign key adder in laravel migration.
+Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
 
 #### Configuration
 
