@@ -1,6 +1,6 @@
 {
     "name": "ajcastro/fk-adder",
-    "description": "",
+    "description": "Lets you add foreign keys in a swift! Foreign key adder in laravel migration.",
     "keywords": ["foreign key", "database", "migration", "fk"],
     "license": "MIT",
     "authors": [

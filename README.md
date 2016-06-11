@@ -1,5 +1,6 @@
 ### FkAdder\Fk
 
+Lets you add foreign keys in a swift! Foreign key adder in laravel migration.
 
 #### Usage
 
