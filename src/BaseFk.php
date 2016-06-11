@@ -2,6 +2,8 @@
 
 namespace FkAdder;
 
+use Illuminate\Support\Facades\Config;
+
 class BaseFk
 {
     public $primaryKey = 'id';
@@ -41,7 +43,7 @@ class BaseFk
             return static::$fkDatatypes;
         }
 
-        $required = require_once Fk::$fkDatatypesPath;
+        $required = require_once Config::get('fk_adder.fk_datatypes_path');
 
         return static::$fkDatatypes = $required === true ? static::$fkDatatypes : $required;
     }

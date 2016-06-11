@@ -2,6 +2,8 @@
 
 namespace FkAdder;
 
+use Illuminate\Support\Facades\Config;
+
 class Fk
 {
     /**
@@ -17,20 +19,6 @@ class Fk
      * @var array
      */
     public static $foreignKeys = [];
-
-    /**
-     * Path for fk_datatypes.php
-     *
-     * @var string
-     */
-    public static $fkDatatypesPath;
-    
-    /**
-     * Namespace for Fk classes.
-     *
-     * @var string
-     */
-    public static $fkNamespace;
 
     /**
      * Constructor.
@@ -93,7 +81,7 @@ class Fk
             return new BaseFk($this->table, $fk);
         }
 
-        $class = static::$fkNamespace.'\\'.studly_case($fk);
+        $class = Config::get('fk_adder.fk_namespace').'\\'.studly_case($fk);
 
         return new $class($this->table);
     }
