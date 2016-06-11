@@ -36,7 +36,7 @@ class Fk
      * @param  \Illuminate\Database\Schema\Blueprint $table
      * @return static
      */
-    public static function for($table)
+    public static function make($table)
     {
         return new static($table);
     }
@@ -84,18 +84,6 @@ class Fk
         $class = Config::get('fk_adder.fk_namespace').'\\'.studly_case($fk);
 
         return new $class($this->table);
-    }
-
-    /**
-     * Alias for for(). Older version uses make(). Recommended to use for().
-     *
-     * @deprecated
-     * @param  \Illuminate\Database\Schema\Blueprint $table
-     * @return static
-     */
-    public static function make($table)
-    {
-        return new static($table);
     }
 
     /**
