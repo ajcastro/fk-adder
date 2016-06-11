@@ -36,11 +36,11 @@ class AddForeignKeysToAllTable extends Migration
         // Execute creation of foreign keys by all migrations which use Fk. \m/ :).
         foreach (Fk::$foreignKeys as $foreignKey) {
             Schema::table($foreignKey['table'], function (Blueprint $table) use ($foreignKey) {
-                $table->foreign($foreignKey['column', $foreignKey['key_name')
-                ->references($foreignKey['primary_key')
-                ->on($foreignKey['reference_table')
-                ->onDelete($foreignKey['on_delete')
-                ->onUpdate($foreignKey['on_update');
+                $table->foreign($foreignKey['column'], $foreignKey['key_name'])
+                ->references($foreignKey['primary_key'])
+                ->on($foreignKey['reference_table'])
+                ->onDelete($foreignKey['on_delete'])
+                ->onUpdate($foreignKey['on_update']);
             });
         }
     }
