@@ -2,6 +2,10 @@
 
 Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
 
+#### Installation
+
+`composer require ajcastro/fk-adder=dev-master`
+
 #### Configuration
 
 Create a config file inside the `config` folder named fk_adder.php
