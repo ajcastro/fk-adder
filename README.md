@@ -8,7 +8,7 @@ Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
 
 #### Configuration
 
-Create a config file inside the `config` folder named fk_adder.php
+Create a config file named `app/config/fk_adder.php`
 
 ```
 <?php
