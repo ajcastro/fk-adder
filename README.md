@@ -3,6 +3,17 @@
 
 #### Usage
 
+__Sample__:
+```
+Schema::create('users', function(Blueprint $table)
+{
+    $table->increments('id');
+    FkAdder::for($table)->add('user_group_id');
+    // ...
+    
+});
+```
+
 Create your migration and  
 Name your migration filename like `3000_03_01_094045_add_foreign_keys_to_all_table.php` 
 to make sure it will be the last migration to be executed.
