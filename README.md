@@ -113,3 +113,7 @@ class AddForeignKeysToAllTable extends Migration
 }
 
 ```
+
+#### License
+
+Released under MIT License.
