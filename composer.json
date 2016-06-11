@@ -1,0 +1,21 @@
+{
+    "name": "ajcastro/fk-adder",
+    "description": "",
+    "keywords": ["foreign key", "database", "migration", "fk"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arjon Jason Castro",
+            "email": "ajcastro29@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FkAdder\\": "src"
+        },
+    },
+    "minimum-stability": "dev"
+}
