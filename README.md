@@ -2,6 +2,20 @@
 
 Lets you add foreign keys in a swift! Foreign key adder in laravel migration.
 
+#### Configuration
+
+Create a config file inside the `config` folder named fk_adder.php
+
+```
+<?php
+
+return [
+    'fk_namespace' => 'Your\Fk\Namespace',
+    'fk_datatypes_path' => app_path('database/foreign_keys/fk_datatypes.php')
+];
+
+```
+
 #### Usage
 
 __Sample__:
