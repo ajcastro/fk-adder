@@ -26,7 +26,7 @@ __Sample__:
 ```
 Schema::create('users', function(Blueprint $table) {
     $table->increments('id');
-    Fk::for($table)->add('user_group_id');
+    Fk::for($table)->add('user_group_id')->nullable()->comment('User group of the user');
 });
 ```
 
