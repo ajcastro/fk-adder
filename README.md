@@ -17,7 +17,45 @@ return [
     'fk_namespace' => 'Your\Fk\Namespace',
     'fk_datatypes_path' => app_path('database/foreign_keys/fk_datatypes.php')
 ];
+```
 
+#### Setup
+
+Setup your foreign keys.
+
+Create classes of foreign keys declaration inside your `fk_namespace`.
+
+```
+<?php
+
+namespace Your\Fk\Namespace;
+
+use FkAdder\BaseFk;
+
+class UserId extends BaseFk
+{
+    protected $referenceTable = 'users';
+
+    public function createFkColumn($column)
+    {
+        return $this->table->unsignedInteger($column);
+    } 
+}
+
+```
+
+If your foreign key declaration is so simple as it is just needs the datatype declaration you can use your `fk_datatypes_path`.
+
+```
+<?php
+
+/*
+ * Fk datatypes. Registry of datatypes per fk, if ever createFkColumn is just a datatype declaration.
+ * For simple fk datatype column creation.
+ */
+return [
+    'user_id' => 'unsignedInteger'
+];
 ```
 
 #### Usage
