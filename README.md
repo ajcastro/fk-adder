@@ -12,7 +12,7 @@ __Things that `FkAdder` do for you:__
 
 #### Installation
 
-`composer require ajcastro/fk-adder=dev-master`
+`composer require ajcastro/fk-adder`
 
 #### Configuration
 
