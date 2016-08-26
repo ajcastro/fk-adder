@@ -1,6 +1,7 @@
 ### FkAdder for Laravel Migration
 
 Lets you add foreign keys in a swift! Foreign key adder for laravel migration. Tested only in laravel version `4.2.11`.
+Applicable Also in Laravel `5.*`
 
 The purpose of `FkAdder` is to simplify declaration of foreign key columns in migration.
 
@@ -14,9 +15,18 @@ __Things that `FkAdder` do for you:__
 
 `composer require ajcastro/fk-adder`
 
-#### Configuration
+#### Alias
 
-Create a config file named `app/config/fk_adder.php`
+Add to `app.php` file on `config` folder add `aliases` for your `FKAdder`
+```
+ 'Fk' => FkAdder\Fk::class
+```
+
+#### Configuration
+- Laravel `4.2`
+ - Create a config file named `app/config/fk_adder.php`
+- Laravel `5.*`
+ - Create a config file named `config/fk_adder.php`
 
 ```
 <?php
@@ -68,7 +78,8 @@ If your foreign key declaration is so simple as it just needs the datatype decla
  * For simple fk datatype column creation.
  */
 return [
-    'user_id' => 'unsignedInteger'
+    'user_id' => 'unsignedInteger',
+    'user_group_id' => 'unsignedInteger',
 ];
 ```
 
