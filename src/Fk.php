@@ -23,7 +23,7 @@ class Fk
     protected $column;
     protected $keyName;
     protected $onDelete = 'restrict';
-    protected $onUpdate = 'restrict';
+    protected $onUpdate = 'cascade';
 
     /**
      * Constructor.
