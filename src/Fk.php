@@ -20,6 +20,11 @@ class Fk
      */
     public static $foreignKeys = [];
 
+    protected $column;
+    protected $keyName;
+    protected $onDelete = 'restrict';
+    protected $onUpdate = 'restrict';
+
     /**
      * Constructor.
      *
@@ -42,6 +47,58 @@ class Fk
     }
 
     /**
+     * Set the column for the fk.
+     *
+     * @param  string $column
+     * @return $this
+     */
+    public function column($column)
+    {
+        $this->column = $column;
+
+        return $this;
+    }
+
+    /**
+     * Set the key name of the fk.
+     *
+     * @param  string $keyName
+     * @return $this
+     */
+    public function keyName($keyName)
+    {
+        $this->keyName = $keyName;
+
+        return $keyName;
+    }
+
+    /**
+     * Set the on_delete of the fk.
+     *
+     * @param  string $onDelete
+     * @return $this
+     */
+    public function onDelete($onDelete)
+    {
+        $this->onDelete = $onDelete;
+
+        return $this;
+    }
+
+    /**
+     * Set the on_update of the fk.
+     *
+     * @param  string $onUpdate
+     * @return $this
+     */
+    public function onUpdate($onUpdate)
+    {
+        $this->onUpdate = $onUpdate;
+
+        return $this;
+    }
+
+    /**
      * Add a foreign key to table and defer its foreign key creation.
      *
      * @param string $fk
@@ -58,13 +115,13 @@ class Fk
         $column = $column ?: $baseFk->defaultColumn();
 
         static::$foreignKeys[] = [
-            'column'          => $column,
-            'key_name'        => $keyName,
+            'column'          => $column ?: $this->column,
+            'key_name'        => $keyName ?: $this->keyName,
             'table'           => $this->table->getTable(),
             'reference_table' => $baseFk->referenceTable(),
             'primary_key'     => $baseFk->primaryKey,
-            'on_delete'       => $onDelete ?: $baseFk->onDelete,
-            'on_update'       => $onUpdate ?: $baseFk->onUpdate,
+            'on_delete'       => $onDelete ?: $this->onDelete ?: $baseFk->onDelete,
+            'on_update'       => $onUpdate ?: $this->onUpdate ?: $baseFk->onUpdate,
         ];
 
         return $baseFk->createFkColumn($column);
