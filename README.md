@@ -19,7 +19,7 @@ __Things that `FkAdder` do for you:__
 
 Add alias into `config/app.php` file.
 
-```
+```php
  'Fk' => FkAdder\Fk::class
 ```
 
@@ -27,7 +27,7 @@ Add alias into `config/app.php` file.
 
 Create a config file named `config/fk_adder.php`
 
-```
+```php
 <?php
 
 return [
@@ -48,7 +48,7 @@ If the foreign key is e.g. `user_id`, then the class name should be `UserId`.
 
 Example:
 
-```
+```php
 <?php
 
 namespace Your\Fk\Namespace;
@@ -69,7 +69,7 @@ class UserId extends BaseFk
 
 If your foreign key declaration is so simple as it just needs the datatype declaration you can use your `fk_datatypes_path`.
 
-```
+```php
 <?php
 
 /*
@@ -85,7 +85,7 @@ return [
 #### Usage
 
 __Sample__:
-```
+```php
 Schema::create('users', function(Blueprint $table) {
     $table->increments('id');
     Fk::make($table)->add('user_group_id')->nullable()->comment('User group of the user');
@@ -98,7 +98,7 @@ to make sure it will be the last migration to be executed.
 
 __Migration Template__
 
-```
+```php
 <?php
 
 use Illuminate\Database\Migrations\Migration;
