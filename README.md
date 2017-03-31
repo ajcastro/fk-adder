@@ -85,6 +85,7 @@ return [
 #### Usage
 
 __Sample__:
+
 ```php
 Schema::create('users', function(Blueprint $table) {
     $table->increments('id');
