@@ -69,7 +69,7 @@ class Fk
     {
         $this->keyName = $keyName;
 
-        return $keyName;
+        return $this;
     }
 
     /**
