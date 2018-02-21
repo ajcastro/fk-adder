@@ -2,6 +2,7 @@
 
 namespace FkAdder;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Config;
 use Schema;
 
