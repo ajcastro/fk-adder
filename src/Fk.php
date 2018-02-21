@@ -3,6 +3,7 @@
 namespace FkAdder;
 
 use Illuminate\Support\Facades\Config;
+use Schema;
 
 class Fk
 {
@@ -125,6 +126,36 @@ class Fk
         ];
 
         return $baseFk->createFkColumn($column);
+    }
+
+    /**
+     * Migrate creation of foreign keys base from the fk calls.
+     *
+     * @return void
+     */
+    public static function migrate()
+    {
+        foreach (static::$foreignKeys as $foreignKey) {
+            Schema::table($foreignKey['table'], function (Blueprint $table) use ($foreignKey) {
+                $table->foreign($foreignKey['column'], $foreignKey['key_name'])
+                ->references($foreignKey['primary_key'])
+                ->on($foreignKey['reference_table'])
+                ->onDelete($foreignKey['on_delete'])
+                ->onUpdate($foreignKey['on_update']);
+            });
+        }
+
+        static::$foreignKeys = [];
+    }
+
+    /**
+     * Rollback creation of foreign keys.
+     *
+     * @return void
+     */
+    public static function rollback()
+    {
+        // Coming soon!
     }
 
     /**
