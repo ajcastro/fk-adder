@@ -89,7 +89,11 @@ class UserId extends BaseFk
 ```
 
 
-### Sample Usage
+### Sample Usage, Before vs After
+
+__Before__
+
+__After__
 
 ```php
 <?php
@@ -113,7 +117,10 @@ class CreateUsersTable extends Migration
             Fk::make($table)->onDelete('cascade')->add('preference_id')->nullable()->comment('Preference of the user');
         });
 
-        Fk::migrate(); // migrate and persist foreign keys in mysql database
+        // Migrate and persist foreign keys in mysql database.
+        // You can call this once at the very end of migration, 
+        // so all your foreign key declarations accross different migration files will be persisted.
+        Fk::migrate();
     }
 
     /**
