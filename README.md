@@ -163,7 +163,7 @@ class CreateUsersTable extends Migration
             Fk::make($table)->keyName('users_new_group_id_foreign_key')->add('group_id', 'new_group_id');
         });
 
-        // Migrate and persist foreign keys in mysql database.
+        // Finally, you may now migrate and persist foreign keys in mysql database.
         // You can call this once at the very end of migration, 
         // so all your foreign key declarations accross different migration files will be persisted.
         Fk::migrate();
