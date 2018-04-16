@@ -142,7 +142,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function(Blueprint $table) {
             $table->increments('id');
-            
+
             // Foreign key declaration is one-liner, simpler and more compact. 
             // You dont have to type what datatype it is. You will just declare it once.
             Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
@@ -161,6 +161,8 @@ class CreateUsersTable extends Migration
 
             // You can also pass the key name for the foreign key.
             Fk::make($table)->keyName('users_new_group_id_foreign_key')->add('group_id', 'new_group_id');
+
+            // Take note that those foreign key modifiers should be called prior or before the `add()` method.
         });
 
         // Finally, you may now migrate and persist foreign keys in mysql database.
