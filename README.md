@@ -169,8 +169,6 @@ class CreateUsersTable extends Migration
 
 ```
 
-As you can see, fk-adder make it simpler for you to add foreign keys in migration.
-
 #### License
 
 Released under MIT License.
