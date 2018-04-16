@@ -147,6 +147,11 @@ class CreateUsersTable extends Migration
             Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
             Fk::make($table)->onDelete('cascade')->add('preference_id')
                 ->nullable()->comment('Preference of the user');
+
+            // There are other available methods below. 
+            // After you call the method `add()`, it will return an instance of the usual \Illuminate\Support\Fluent,
+            // so that you can chain more column declaration like `nullable()` and `comment()`
+
         });
 
         // Migrate and persist foreign keys in mysql database.
