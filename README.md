@@ -93,6 +93,35 @@ class UserId extends BaseFk
 
 __Before__
 
+```php
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function(Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('group_id')->nullable()->comment('Group of the user');
+            $table->unsignedBigInteger('preference_id')->nullable()->comment('Preference of the user');
+
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->foreign('preference_id')->references('id')->on('preferences');
+        });
+    }
+}
+
+```
+
 __After__
 
 ```php
@@ -136,6 +165,8 @@ class CreateUsersTable extends Migration
 }
 
 ```
+
+As you can see, fk-adder make it simpler for you to add foreign keys in migration.
 
 #### License
 
