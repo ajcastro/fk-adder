@@ -1,21 +1,21 @@
-### FkAdder for Laravel Migration
+## FkAdder for Laravel Migration
 
 Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
 For Laravel `4.2` and `5.*`.
 
 The purpose of `FkAdder` is to simplify declaration of foreign key columns in migration.
 
-__Things that `FkAdder` do for you:__
-  *   __Remembers the data type of a foreign key__, and it will provide the correct data type for you, so that you don't have to recall the data type of foreign key column
+##### Things that `FkAdder` do for you:
+  * __Remembers the data type of a foreign key__, and it will provide the correct data type for you, so that you don't have to recall the data type of foreign key column
       whenever you need that certain foreign key.
-  *   __Lets you create migration tables in any order__. This solves the problem when your table is created prior than the reference table.
+  * __Lets you create migration tables in any order__. This solves the problem when your table is created prior than the reference table.
 
 
-#### Installation
+### Installation
 
 `composer require ajcastro/fk-adder`
 
-#### Alias
+### Alias
 
 Add alias into `config/app.php` file.
 
@@ -23,7 +23,7 @@ Add alias into `config/app.php` file.
  'Fk' => FkAdder\Fk::class
 ```
 
-#### Configuration
+### Configuration
 
 Create a config file named `config/fk_adder.php`
 
@@ -31,16 +31,37 @@ Create a config file named `config/fk_adder.php`
 <?php
 
 return [
-    'fk_namespace' => 'Your\Fk\Namespace',
-    'fk_datatypes_path' => app_path('database/foreign_keys/fk_datatypes.php')
+    'fk_namespace' => 'Your\Fk\Namespace', // for class-based declaration
+    'fk_datatypes_path' => app_path('database/foreign_keys/fk_datatypes.php') // for string-based declaration
 ];
 ```
 
-#### Setup
+### Setup
 
-Setup your foreign keys.
+There are two ways to setup your foreign keys: __string-based declaration__ and __class-based declaration__. 
+String-based is preferred for simpler datatype declaration.
 
-Create classes of foreign keys declaration inside your `fk_namespace`.
+##### String-based declaration
+
+Open your `fk_datatypes_path` file and add the foreign key declaration in the array.
+
+```php
+<?php
+
+/*
+ * Fk datatypes. Simple  datatype declaration.
+ */
+return [
+    'user_id'       => 'unsignedInteger',
+    'group_id'      => 'unsignedInteger',
+    'preference_id' => 'unsignedBigInteger',
+];
+```
+
+
+##### Class-based declaration
+
+Create classes of foreign keys declaration inside your `fk_namespace` directory path.
 
 __Naming Convention__
 
@@ -67,47 +88,17 @@ class UserId extends BaseFk
 
 ```
 
-If your foreign key declaration is so simple as it just needs the datatype declaration you can use your `fk_datatypes_path`.
+
+### Sample Usage
 
 ```php
 <?php
 
-/*
- * Fk datatypes. Registry of datatypes per fk, if ever createFkColumn is as simple as a datatype declaration.
- * For simple fk datatype column creation.
- */
-return [
-    'user_id' => 'unsignedInteger',
-    'user_group_id' => 'unsignedInteger',
-];
-```
-
-#### Usage
-
-__Sample__:
-
-```php
-<?php
-
-Schema::create('users', function(Blueprint $table) {
-    $table->increments('id');
-    Fk::make($table)->add('user_group_id')->nullable()->comment('User group of the user');
-});
-```
-
-Create your migration and  
-Name your migration filename like `3000_03_01_094045_add_foreign_keys_to_all_table.php` 
-to make sure it will be the last migration to be executed.
-
-__Migration Template__
-
-```php
-<?php
-
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class AddForeignKeysToAllTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -116,17 +107,13 @@ class AddForeignKeysToAllTable extends Migration
      */
     public function up()
     {
-        // IMPORTANT NOTE: Make sure this is the last migration being called.
-        // Execute creation of foreign keys by all migrations which use Fk. \m/ :).
-        foreach (Fk::$foreignKeys as $foreignKey) {
-            Schema::table($foreignKey['table'], function (Blueprint $table) use ($foreignKey) {
-                $table->foreign($foreignKey['column'], $foreignKey['key_name'])
-                ->references($foreignKey['primary_key'])
-                ->on($foreignKey['reference_table'])
-                ->onDelete($foreignKey['on_delete'])
-                ->onUpdate($foreignKey['on_update']);
-            });
-        }
+        Schema::create('users', function(Blueprint $table) {
+            $table->increments('id');
+            Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
+            Fk::make($table)->onDelete('cascade')->add('preference_id')->nullable()->comment('Preference of the user');
+        });
+
+        Fk::migrate(); // migrate and persist foreign keys in mysql database
     }
 
     /**
@@ -136,6 +123,8 @@ class AddForeignKeysToAllTable extends Migration
      */
     public function down()
     {
+        Fk::rollback(); // delete foreign keys persisted by Fk::migrate(), (coming soon...)
+        Schema::dropIfExists('users');
     }
 }
 
