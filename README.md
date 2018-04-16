@@ -155,6 +155,12 @@ class CreateUsersTable extends Migration
             // If ever you need a different column name from the foreign key, just pass a second parameter 
             // to `add()` method e.g.
             Fk::make($table)->add('group_id', 'new_group_id')->nullable()->comment('New group of the user');
+
+            // The default `onDelete` settings is `restrict` and `onUpdate` is `cascade`.
+            Fk::make($table)->onDelete('restrict')->onUpdate('cascade')->add('group_id', 'new_group_id');
+
+            // You can also pass the key name for the foreign key.
+            Fk::make($table)->keyName('users_new_group_id_foreign_key')->add('group_id', 'new_group_id');
         });
 
         // Migrate and persist foreign keys in mysql database.
