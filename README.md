@@ -152,7 +152,8 @@ class CreateUsersTable extends Migration
             // After you call the method `add()`, it will return an instance of the usual \Illuminate\Support\Fluent,
             // so that you can chain more column declaration like `nullable()` and `comment()`
 
-            // If ever you need a different column name from the foreign key, just pass a second parameter to `add()` method e.g.
+            // If ever you need a different column name from the foreign key, just pass a second parameter 
+            // to `add()` method e.g.
             Fk::make($table)->add('group_id', 'new_group_id')->nullable()->comment('New group of the user');
         });
 
