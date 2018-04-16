@@ -142,6 +142,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function(Blueprint $table) {
             $table->increments('id');
+            
             // Foreign key declaration is one-liner, simpler and more compact. 
             // You dont have to type what datatype it is. You will just declare it once.
             Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
