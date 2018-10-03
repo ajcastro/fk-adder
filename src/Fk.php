@@ -168,7 +168,7 @@ class Fk
             ];
         }, $foreignKeys);
 
-        file_put_contents(Config::get('fk_adder.foreign_keys_dir'), json_encode($foreignKeys));
+        file_put_contents(Config::get('fk_adder.foreign_keys_dir').$filename, json_encode($foreignKeys));
     }
 
     /**
@@ -178,7 +178,7 @@ class Fk
      */
     public static function rollback()
     {
-        // Coming soon!
+
     }
 
     /**
