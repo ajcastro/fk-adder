@@ -154,11 +154,23 @@ class Fk
         static::$foreignKeys = [];
     }
 
+    /**
+     * Get the migration filename.
+     *
+     * @return string
+     */
     protected function getMigrationFilename()
     {
         return 'sample.json';
     }
 
+    /**
+     * Create the migration json file.
+     *
+     * @param  string $filename
+     * @param  array $foreignKeys
+     * @return void
+     */
     protected static function createMigrationJson($filename, $foreignKeys)
     {
         $foreignKeys = array_map(function ($foreignKey) {
@@ -178,7 +190,24 @@ class Fk
      */
     public static function rollback()
     {
+        foreach (static::getMigrationJsonFiles() as $file) {
+            $data = json_decode(file_get_contents($file), true);
+            Schema::table($data['table'], function (Blueprint $table) use ($data) {
+                $table->dropForeignKey($data['key_name']);
+            });
+        }
+    }
 
+    /**
+     * Get the migration json files.
+     *
+     * @return array
+     */
+    protected static function getMigrationJsonFiles()
+    {
+        return [
+            Config::get('fk_adder.foreign_keys_dir').'sample.php',
+        ];
     }
 
     /**
