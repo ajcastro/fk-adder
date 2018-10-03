@@ -146,7 +146,29 @@ class Fk
             });
         }
 
+        static::createMigrationJson(
+            static::getMigrationFilename(),
+            static::$foreignKeys
+        );
+
         static::$foreignKeys = [];
+    }
+
+    protected function getMigrationFilename()
+    {
+        return 'sample.json';
+    }
+
+    protected static function createMigrationJson($filename, $foreignKeys)
+    {
+        $foreignKeys = array_map(function ($foreignKey) {
+            return [
+                'table' => $foreignKey['table'],
+                'key_name' => $foreignKey['key_name'],
+            ];
+        }, $foreignKeys);
+
+        file_put_contents(Config::get('fk_adder.foreign_keys_dir'), json_encode($foreignKeys));
     }
 
     /**
