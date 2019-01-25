@@ -17,7 +17,7 @@ The purpose of `FkAdder` is to simplify declaration of foreign key columns in mi
 
 ### Alias
 
-Add alias into `config/app.php` file.
+Add alias into `config/app.php` file. You can skip this because of laravel's auto-discovery.
 
 ```php
  'Fk' => FkAdder\Fk::class
