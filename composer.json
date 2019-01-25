@@ -23,7 +23,7 @@
             "providers": [
             ],
             "aliases": {
-                "Fk": "FkAdder\Fk"
+                "Fk": "FkAdder\\Fk"
             }
         }
     }
