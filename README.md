@@ -34,7 +34,7 @@ Create a config file named `config/fk_adder.php`
 return [
     // For simple string-based declaration
     'fk_datatypes_path' => base_path('database/foreign_keys/fk_datatypes.php') 
-    // For class-based declaration, used for special cases and more control
+    // For class-based declaration, used for special cases and more control. You don't need this for simple cases .
     'fk_namespace' => 'Your\Fk\Namespace', 
 ];
 ```
