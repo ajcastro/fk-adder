@@ -1,14 +1,15 @@
 ## FkAdder for Laravel Migration
 
-Lets you add foreign keys in a swift! Foreign key adder for laravel migration.
+Lets you add foreign keys smart and easy! Foreign key adder for laravel migration.
 For Laravel `4.2` and `5.*`.
 
 The purpose of `FkAdder` is to simplify declaration of foreign key columns in migration.
 
 ##### Things that `FkAdder` do for you:
   * __Remembers the data type of a foreign key__, and it will provide the correct data type for you, so that you don't have to recall the data type of foreign key column
-      whenever you need that certain foreign key.
-  * __Lets you create migration tables in any order__. This solves the problem when your table is created prior than the reference table.
+      whenever you need that particular foreign key.
+  * __Lets you create migration tables in any order__. This solves the problem when your table is created prior than the reference table. Usually this may cause error like `Reference table some_table does not exist`, this happens when referencing the table which are to be migrated on last part of migrations.
+  * __Speeds up laravel migration development.__
 
 
 ### Installation
@@ -31,8 +32,10 @@ Create a config file named `config/fk_adder.php`
 <?php
 
 return [
-    'fk_namespace' => 'Your\Fk\Namespace', // for class-based declaration
-    'fk_datatypes_path' => app_path('database/foreign_keys/fk_datatypes.php') // for string-based declaration
+    // For simple string-based declaration
+    'fk_datatypes_path' => base_path('database/foreign_keys/fk_datatypes.php') 
+    // For class-based declaration, used for special cases and more control
+    'fk_namespace' => 'Your\Fk\Namespace', 
 ];
 ```
 
@@ -43,13 +46,13 @@ String-based is preferred for simpler datatype declaration.
 
 ##### String-based declaration
 
-Open your `fk_datatypes_path` file and add the foreign key declaration in the array.
+Open your `fk_datatypes_path` file and add the foreign key declaration in the array. They array keys are the foreign key columns and its values are the datatypes.
 
 ```php
 <?php
 
 /*
- * Fk datatypes. Simple  datatype declaration.
+ * Fk datatypes. Simple datatype declaration.
  */
 return [
     'user_id'       => 'unsignedInteger',
@@ -115,7 +118,8 @@ class CreateUsersTable extends Migration
             $table->unsignedBigInteger('preference_id')->nullable()->comment('Preference of the user');
 
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('preference_id')->references('id')->on('preferences');
+            $table->foreign('preference_id')->references('id')->on('preferences')
+                ->onDelete('cascade')>onUpdate('cascade');
         });
     }
 }
@@ -123,6 +127,42 @@ class CreateUsersTable extends Migration
 ```
 
 __After__
+
+```php
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateUsersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function(Blueprint $table) {
+            $table->increments('id');
+
+            Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
+            
+            Fk::make($table)
+                ->onDelete('cascade')
+                ->add('preference_id')
+                ->nullable()
+                ->comment('Preference of the user');
+        });
+
+        Fk::migrate();
+    }
+}
+
+```
+
+__More Features and Benefits__
 
 ```php
 <?php
