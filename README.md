@@ -151,6 +151,7 @@ class CreateUsersTable extends Migration
             
             Fk::make($table)
                 ->onDelete('cascade')
+                ->onUpdate('cascade')
                 ->add('preference_id')
                 ->nullable()
                 ->comment('Preference of the user');
@@ -162,7 +163,7 @@ class CreateUsersTable extends Migration
 
 ```
 
-__More Features and Benefits__
+__More Features, Benefits and Explanations__
 
 ```php
 <?php
