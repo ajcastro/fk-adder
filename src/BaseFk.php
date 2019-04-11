@@ -18,47 +18,14 @@ class BaseFk
 
     protected $fk;
 
-    /**
-     * Fk datatypes. Registry of datatypes per fk, if ever createFkColumn is just a datatype declaration.
-     * For simple fk datatype column creation. See fk_datatypes.php file to add fkDatatypes.
-     *
-     * @var array
-     */
-    protected static $fkDatatypes = [];
+    protected $datatype;
 
-    public function __construct($table = null, $fk = null)
+    public function __construct($table = null, $fk = null, $datatype = null, $referenceTable = null)
     {
-        $this->table = $table;
-        $this->fk    = $fk;
-    }
-
-    /**
-     * Return array of fkDatatypes.
-     *
-     * @return array
-     */
-    public static function fkDatatypes()
-    {
-        if (!empty(static::$fkDatatypes)) {
-            return static::$fkDatatypes;
-        }
-
-        $required = require_once Config::get('fk_adder.fk_datatypes_path');
-
-        return static::$fkDatatypes = $required === true ? static::$fkDatatypes : $required;
-    }
-
-    /**
-     * Return the datatype for the given fk.
-     *
-     * @param  string $fk
-     * @return string|null
-     */
-    public static function getFkDatatype($fk)
-    {
-        if (array_key_exists($fk, $fkDatatypes = static::fkDatatypes())) {
-            return $fkDatatypes[$fk];
-        }
+        $this->table          = $table;
+        $this->fk             = $fk;
+        $this->datatype       = $datatype;
+        $this->referenceTable = $referenceTable;
     }
 
     /**
@@ -69,7 +36,7 @@ class BaseFk
      */
     public function datatype()
     {
-        return static::getFkDatatype($this->fk);
+        return $this->datatype;
     }
 
     /**
@@ -93,8 +60,24 @@ class BaseFk
         return $this->fk ?: snake_case(last(explode('\\', get_class($this))));
     }
 
+    /**
+     * Return the reference table of a foreign key.
+     *
+     * @return string
+     */
     public function referenceTable()
     {
-        return $this->referenceTable ?: $this->referenceTable = str_plural(str_replace('_id', '', $this->defaultColumn()));
+        return $this->referenceTable ?: $this->referenceTable = static::guessReferenceTable($this->defaultColumn());
+    }
+
+    /**
+     * Guess reference table.
+     *
+     * @param  string $fk
+     * @return string
+     */
+    public static function guessReferenceTable($fk)
+    {
+        return str_plural(str_replace('_id', '', $fk));
     }
 }

@@ -33,31 +33,41 @@ Create a config file named `config/fk_adder.php`
 
 return [
     // For simple string-based declaration
-    'fk_datatypes_path' => base_path('database/foreign_keys/fk_datatypes.php') 
+    'fk_datatypes_path' => base_path('database/foreign_keys/fk_datatypes.php')
     // For class-based declaration, used for special cases and more control. You don't need this for simple cases .
-    'fk_namespace' => 'Your\Fk\Namespace', 
+    'fk_namespace' => 'Your\Fk\Namespace',
 ];
 ```
 
 ### Setup
 
-There are two ways to setup your foreign keys: __string-based declaration__ and __class-based declaration__. 
+There are two ways to setup your foreign keys: __string-based declaration__ and __class-based declaration__.
 String-based is preferred for simpler datatype declaration.
 
 ##### String-based declaration
 
-Open your `fk_datatypes_path` file and add the foreign key declaration in the array. They array keys are the foreign key columns and its values are the datatypes.
+Open your `fk_datatypes_path` file and add the foreign key declaration in the array.
+The array keys are the foreign key columns and its values are the datatypes.
+The reference tables are smartly guessed already by remove the `_id` and pluralizing the foreign key names e.g. `user_id` -> `users`.
 
 ```php
 <?php
 
-/*
- * Fk datatypes. Simple datatype declaration.
- */
 return [
     'user_id'       => 'unsignedInteger',
     'group_id'      => 'unsignedInteger',
     'preference_id' => 'unsignedBigInteger',
+];
+```
+
+Since version 1.2, you can now also define the reference table. This is helpful for foreign keys which has custom table names.
+
+```php
+<?php
+
+return [
+    'user_id'       => 'unsignedInteger, custom_users',
+    'group_id'      => 'unsignedInteger, custom_groups',
 ];
 ```
 
@@ -86,7 +96,7 @@ class UserId extends BaseFk
     public function createFkColumn($column)
     {
         return $this->table->unsignedInteger($column);
-    } 
+    }
 }
 
 ```
@@ -148,7 +158,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
 
             Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
-            
+
             Fk::make($table)
                 ->onDelete('cascade')
                 ->onUpdate('cascade')
@@ -184,7 +194,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function(Blueprint $table) {
             $table->increments('id');
 
-            // Foreign key declaration is one-liner, simpler and more compact. 
+            // Foreign key declaration is one-liner, simpler and more compact.
             // You dont have to type what datatype it is. You will just declare it once.
             Fk::make($table)->add('group_id')->nullable()->comment('Group of the user');
             Fk::make($table)->onDelete('cascade')->add('preference_id')
@@ -193,7 +203,7 @@ class CreateUsersTable extends Migration
             // After you call the method `add()`, it will return an instance of the usual \Illuminate\Support\Fluent,
             // so that you can chain more column declaration like `nullable()` and `comment()`
 
-            // If ever you need a different column name from the foreign key, just pass a second parameter 
+            // If ever you need a different column name from the foreign key, just pass a second parameter
             // to `add()` method e.g.
             Fk::make($table)->add('group_id', 'new_group_id')->nullable()->comment('New group of the user');
 
@@ -207,7 +217,7 @@ class CreateUsersTable extends Migration
         });
 
         // Finally, you may now migrate and persist foreign keys in mysql database.
-        // You can call this once at the very end of migration, 
+        // You can call this once at the very end of migration,
         // so all your foreign key declarations accross different migration files will be persisted.
         Fk::migrate();
     }
