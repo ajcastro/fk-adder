@@ -163,12 +163,12 @@ class Fk
      * Return the baseFk for foreign key column creation.
      *
      * @param  string $fk
-     * @return \FkAdder\ColumnCreator
+     * @return \FkAdder\BaseFk
      */
     public function baseFk($fk)
     {
-        if (!is_null(BaseFk::getFkDatatype($fk))) {
-            return new BaseFk($this->table, $fk);
+        if ($fkConfig = FkConfig::get($fk)) {
+            return new BaseFk($this->table, $fk, $fkConfig['datatype'], $fkConfig['referenceTable']);
         }
 
         $class = Config::get('fk_adder.fk_namespace').'\\'.studly_case($fk);
